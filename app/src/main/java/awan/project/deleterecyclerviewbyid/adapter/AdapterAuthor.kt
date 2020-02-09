@@ -25,7 +25,6 @@ import java.util.*
 class AdapterAuthor (var item: ArrayList<ModelAuthor>?, val ctx: Context)
     : RecyclerView.Adapter<AdapterAuthor.ViewHolder>(){
 
-
     lateinit var sharedPrefDetailBerita : SharedPrefDetailBerita
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,20 +42,8 @@ class AdapterAuthor (var item: ArrayList<ModelAuthor>?, val ctx: Context)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = this.item?.get(position)
 
-        val id_data = data!!.idberita
 
-        if(sharedPrefDetailBerita.spIdberita == id_data)
-        {
-            //deletedata(data)
-            //removeItem(data)
-            //holder.itemView.visibility = GONE
-        }/*else{
-            *//*item!!.add(data)*//*
-            //notifyDataSetChanged()
-            //holder.itemView.visibility = VISIBLE
-        }*/
-
-        Glide.with(ctx).load(data.image).into(holder.img)
+        Glide.with(ctx).load(data!!.image).into(holder.img)
         holder.judul.text = data.idberita
         holder.subjudul.setHtml(data.subtitle,  HtmlHttpImageGetter(holder.subjudul))
 
@@ -66,12 +53,6 @@ class AdapterAuthor (var item: ArrayList<ModelAuthor>?, val ctx: Context)
         val date = Calendar.getInstance().time
         val form = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
         val formatted = form.format(date)
-
-        if (rawSimpleDate(tgl).contains(formatted)){
-            holder.tanggal.text = "Hari ini " + rawSimpleTime(tgl)
-        }else{
-            holder.tanggal.text = "Update At "+ rawSimpleDate(tgl)
-        }
 
         holder.detail.setOnClickListener {
             val img = data.image
@@ -83,28 +64,7 @@ class AdapterAuthor (var item: ArrayList<ModelAuthor>?, val ctx: Context)
             sharedPrefDetailBerita.saveSPString(SharedPrefDetailBerita.SP_JUDUL, judul)
             sharedPrefDetailBerita.saveSPString(SharedPrefDetailBerita.SP_ISI_BERITA, isiberita)
             sharedPrefDetailBerita.saveSPString(SharedPrefDetailBerita.SP_Tanggal, tanggal)
-
-            removeItem(data)
         }
-    }
-
-
-    private fun removeItem( infoData: ModelAuthor?) {
-        val currPosition = this.item!!.indexOf(infoData)
-        item!!.removeAt(currPosition)
-        notifyItemRemoved(currPosition)
-        //notifyItemRangeChanged(currPosition,item!!.size)
-    }
-
-    private fun deletedata(infoData: ModelAuthor?){
-
-        item!!.removeAt(getAdapterPosition())
-        notifyItemRemoved(getAdapterPosition())
-        notifyItemRangeChanged(getAdapterPosition(), item!!.size)
-    }
-
-    private fun getAdapterPosition(): Int {
-        return item!!.size
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

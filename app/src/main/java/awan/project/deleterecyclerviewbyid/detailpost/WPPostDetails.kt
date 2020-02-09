@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import awan.project.deleterecyclerviewbyid.Api_interface.RetrofitArrayApi
@@ -92,6 +93,8 @@ class WPPostDetails: AppCompatActivity(){
         adapterAuthor = AdapterAuthor(listmodelauthor, ctx)
         rv_author.adapter = adapterAuthor
 
+
+
         val retrofit: Retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -104,7 +107,22 @@ class WPPostDetails: AppCompatActivity(){
         service.getPostAuthor(author, perpage).enqueue(object : Callback<List<WPAuthor>> {
             override fun onResponse(call: Call<List<WPAuthor>>, response: Response<List<WPAuthor>>) {
                     for (i in response.body()!!.indices) {
+
                         val idberita = response.body()!![i].id
+                        if(sharedPrefDetailBerita.spIdberita == idberita){
+                            listmodelauthor?.remove(ModelAuthor(
+                                idberita,
+                                ModelAuthor.IMAGE_TYPE,
+                                response.body()!![i].title.rendered,
+                                response.body()!![i].excerpt.rendered.toString(),
+                                response.body()!![i].content.rendered.toString(),
+                                response.body()!![i].date,
+                                response.body()!![i].betterFeaturedImage?.sourceUrl.toString(),
+                                response.body()!![i].author.toString(),
+                                response.body()!![i].tags[0].toString()
+
+                            ))
+                        }else{
                             listmodelauthor?.add(
                                 ModelAuthor(
                                     idberita,
@@ -118,7 +136,17 @@ class WPPostDetails: AppCompatActivity(){
                                     response.body()!![i].tags[0].toString()
                                 )
                             )
-                    adapterAuthor.notifyDataSetChanged()
+                        }
+
+
+
+                        /*rv_author.post {
+                            @Override
+                            fun run() {
+                                adapterAuthor.notifyDataSetChanged()
+                            }
+                        }*/
+                        adapterAuthor.notifyDataSetChanged()
                 }
             }
 
@@ -127,7 +155,14 @@ class WPPostDetails: AppCompatActivity(){
                 //progressbar_olahraga.visibility = View.GONE
             }
         })
+
+        /*if (!rv_author.isComputingLayout && rv_author.scrollState == SCROLL_STATE_IDLE) {
+            rv_author.adapter?.notifyDataSetChanged()
+        }*/
+
     }
+
+
 
     private fun parseDateToddMMyyyy2(time: String): String? {
         if (time.isEmpty() || time == "null") {
