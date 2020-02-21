@@ -10,12 +10,6 @@ import retrofit2.http.Query;
 
 public interface RetrofitArrayApi {
 
-    /*@GET("android/wp-json/wp/v2/posts")
-    Call<List<WPPost>> getPostInfo();*/
-    //@FormUrlEncoded
-    /*@GET("wp-json/wp/v2/posts?per_page=3")
-    Call<List<WPAuthor>> getPostAuthor(@QueryMap Map<String, String> author);*/
-
     @GET("wp-json/wp/v2/posts?")
     Call<List<WPAuthor>> getPostAuthor(@Query("author[0]") Integer author, @Query("per_page") Integer perpage);
 

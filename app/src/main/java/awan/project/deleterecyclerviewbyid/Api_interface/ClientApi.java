@@ -11,7 +11,7 @@ public class ClientApi {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("http://www.murianews.com/")
+                    .baseUrl("URL_BASE") //you can add this from youre website url
                     .build();
         }
         return retrofit;
