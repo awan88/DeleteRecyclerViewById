@@ -43,7 +43,7 @@ class WPPostDetails: AppCompatActivity(){
     lateinit var current: Date
     var date: Date? = null
 
-    private val baseUrl = "http://www.murianews.com/"
+    private val baseUrl = "http://www.yourebaseurl.com/"
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {

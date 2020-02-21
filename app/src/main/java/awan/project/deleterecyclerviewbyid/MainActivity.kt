@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     var mListPost: List<WPPost>? = null
     lateinit var mLayoutManager: LinearLayoutManager
 
-    private val baseUrl = "http://www.mywebbase.com/" //Add Url Website
+    private val baseUrl = "http://www.yourebaseurl.com/" //Add Url Website
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
